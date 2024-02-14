@@ -22,7 +22,7 @@ class UserModel {
 
     static async getUserById(userId) {
         try {
-            const result = await pool.query('SELECT id, gender, age, country FROM users WHERE id = $1', [userId]);
+            const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
             return result.rows[0];
         } catch (error) {
             throw new Error('Error fetching user by ID');
