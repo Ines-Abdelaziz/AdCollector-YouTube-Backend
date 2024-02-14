@@ -13,8 +13,13 @@ class UserController {
     static async createUser(req, res) {
         const userData = req.body;
         try {
+            //check if user exists
+            const user = await UserModel.getUserById(userData.id);
+            if (user) {
+                return res.status(409).json({ error: 'User already exists' });
+            } else {
             const newUser = await UserModel.createUser(userData);
-            res.status(201).json(newUser);
+            res.status(201).json(newUser);}
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
