@@ -11,11 +11,12 @@ class UserModel {
     }
 
     static async createUser(userData) {
-        const { id, gender, age, country } = userData;
+        const { user_id, gender, age, country } = userData;
         try {
-            const result = await pool.query('INSERT INTO users (user_id, gender, age, country) VALUES ($1, $2, $3, $4) RETURNING *', [id, gender, age, country]);
+            const result = await pool.query('INSERT INTO users (user_id, gender, age, country) VALUES ($1, $2, $3, $4) RETURNING *', [user_id, gender, age, country]);
             return result.rows[0];
         } catch (error) {
+            console.error('Error creating user:', error);
             throw new Error('Error creating user');
         }
     }
