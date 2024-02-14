@@ -13,7 +13,7 @@ class UserModel {
     static async createUser(userData) {
         const { id, gender, age, country } = userData;
         try {
-            const result = await pool.query('INSERT INTO users (id, gender, age, country) VALUES ($1, $2, $3, $4) RETURNING *', [id, gender, age, country]);
+            const result = await pool.query('INSERT INTO users (user_id, gender, age, country) VALUES ($1, $2, $3, $4) RETURNING *', [id, gender, age, country]);
             return result.rows[0];
         } catch (error) {
             throw new Error('Error creating user');
@@ -22,7 +22,7 @@ class UserModel {
 
     static async getUserById(userId) {
         try {
-            const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+            const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
             // Check if any rows were returned
             if (result.rows.length === 0) {
                 return null; // Return null if user is not found
