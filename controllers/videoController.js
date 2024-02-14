@@ -19,6 +19,19 @@ class VideoController {
             res.status(500).json({ error: error.message });
         }
     }
+    //get video by id
+    static async getVideoById(req, res) {
+        const videoId = req.params.id;
+        try {
+            const video = await VideoModel.getVideoById(videoId);
+            if (!video) {
+                return res.status(404).json({ error: 'Video not found' });
+            }
+            res.json(video);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 
     // Add other route handlers as needed
 }

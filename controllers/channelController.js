@@ -19,8 +19,20 @@ class ChannelController {
             res.status(500).json({ error: error.message });
         }
     }
+    //get channel by id
+    static async getChannelById(req, res) {
+        const channelId = req.params.id;
+        try {
+            const channel = await ChannelModel.getChannelById(channelId);
+            if (!channel) {
+                return res.status(404).json({ error: 'Channel not found' });
+            }
+            res.json(channel);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 
-    // Add other route handlers as needed
 }
 
 module.exports = ChannelController;

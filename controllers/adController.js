@@ -19,6 +19,19 @@ class AdController {
             res.status(500).json({ error: error.message });
         }
     }
+    //get ad by id
+    static async getAdById(req, res) {
+        const adId = req.params.id;
+        try {
+            const ad = await AdModel.getAdById(adId);
+            if (!ad) {
+                return res.status(404).json({ error: 'Ad not found' });
+            }
+            res.json(ad);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 
 }
 

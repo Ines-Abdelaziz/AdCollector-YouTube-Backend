@@ -3,7 +3,7 @@ const pool = require('../db-config');
 class UserModel {
     static async getAllUsers() {
         try {
-            const result = await pool.query('SELECT id, gender, age, country FROM users');
+            const result = await pool.query('SELECT * FROM users');
             return result.rows;
         } catch (error) {
             throw new Error('Error fetching users from the database');

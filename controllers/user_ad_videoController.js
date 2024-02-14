@@ -1,4 +1,4 @@
-const UserAdVideoModel = require('../models/UserAdVideoModel');
+const UserAdVideoModel = require('../models/user_ad_videoModel');
 const UserModel = require('../models/userModel');
 const VideoModel = require('../models/videoModel');
 const AdModel = require('../models/adModel');
