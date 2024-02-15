@@ -25,7 +25,8 @@ class VideoModel {
             const result = await pool.query('SELECT * FROM videos WHERE video_id = $1', [videoId]);
             return result.rows[0];
         } catch (error) {
-            throw new Error('Error fetching video by ID');
+            console.error('Error fetching video by ID:', error);
+            return null; // Return null if there was an error
         }
     }
 
