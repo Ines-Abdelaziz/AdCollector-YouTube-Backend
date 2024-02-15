@@ -13,8 +13,13 @@ class ChannelController {
     static async addChannel(req, res) {
         const channelData = req.body;
         try {
+            //check if channel exists
+            const channel = await ChannelModel.getChannelById(channelData.id);
+            if (channel) {
+                return res.status(409).json({ error: 'Channel already exists' });
+            }else{
             const newChannel = await ChannelModel.addChannel(channelData);
-            res.status(201).json(newChannel);
+            res.status(201).json(newChannel);}
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
