@@ -5,6 +5,7 @@ const VideoController = require('./controllers/videoController');
 const AdController = require('./controllers/adController');
 const ChannelController = require('./controllers/channelController');
 const UserAdVideoController = require('./controllers/user_ad_videoController');
+const AdminController = require('./controllers/adminController');
 
 // Routes for users
 router.get('/users', UserController.getAllUsers);
@@ -29,6 +30,8 @@ router.get('/channels/:id', ChannelController.getChannelById);
 
 // Routes for user ad video associations
 router.post('/user-ad-video', UserAdVideoController.addUserAdVideo);
-// Add other routes for user ad video associations if needed
+// Routes for admin
+router.post('/admin/register', AdminController.registerAdmin);
+router.post('/admin/login', AdminController.loginAdmin);
 
 module.exports = router;
