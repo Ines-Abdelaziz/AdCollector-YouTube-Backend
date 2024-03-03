@@ -20,8 +20,8 @@ router.get('/videos/:id', VideoController.getVideoById);
 
 // Routes for ads
 router.get('/ads', AdController.getAllAds);
-router.post('/ads', AdController.addAd);
-router.get('/ads/:id', AdController.getAdById);
+router.post('/ad', AdController.addAd);
+router.get('/ad', AdController.getAdByAllColumns);
 
 // Routes for channels
 router.get('/channels', ChannelController.getAllChannels);

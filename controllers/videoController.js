@@ -13,8 +13,13 @@ class VideoController {
     static async addVideo(req, res) {
         const videoData = req.body;
         try {
+            //check if video exists
+            const video = await VideoModel.getVideoById(videoData.video_id);
+            if (video) {
+                return res.status(409).json({ error: 'Video already exists' });
+            }else{
             const newVideo = await VideoModel.addVideo(videoData);
-            res.status(201).json(newVideo);
+            res.status(201).json(newVideo);}
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
