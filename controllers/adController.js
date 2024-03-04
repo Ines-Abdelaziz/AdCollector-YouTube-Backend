@@ -17,7 +17,7 @@ class AdController {
                     //check if ad exists by comparing all columns
             const ad = await AdModel.getAdByAllColumns(adData);
             if (ad) {
-                return res.status(409).json({ error: 'Ad already exists' , ad_id: ad.ad_id});
+                return res.status(202).json({ error: 'Ad already exists' , ad_id: ad.ad_id});
             }else{
             const newAd = await AdModel.addAd(adData);
             res.status(201).json(newAd);}

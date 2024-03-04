@@ -16,7 +16,7 @@ class VideoController {
             //check if video exists
             const video = await VideoModel.getVideoById(videoData.video_id);
             if (video) {
-                return res.status(409).json({ error: 'Video already exists' });
+                return res.status(202).json({ error: 'Video already exists' });
             }else{
             const newVideo = await VideoModel.addVideo(videoData);
             res.status(201).json(newVideo);}
