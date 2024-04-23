@@ -49,6 +49,8 @@ router.get(
   UserStatsController.getTargetingReasonsByUser
 );
 
+router.post("/increment-watch-count", UserController.incrementVideos);
+
 // Routes for admin
 router.post("/admin/register", AdminController.registerAdmin);
 router.post("/admin/login", AdminController.loginAdmin);
