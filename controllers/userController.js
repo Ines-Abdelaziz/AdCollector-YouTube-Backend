@@ -88,7 +88,10 @@ class UserController {
       const response = await axios.get(
         `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token}`
       );
-      if (response.data.aud === CLIENT_ID && response.data.sub === userId) {
+      if (
+        response.data.issued_to === CLIENT_ID &&
+        response.data.user_id === userId
+      ) {
         // Token is valid and userId matches
         res.json({ success: true });
       } else {
