@@ -1,4 +1,6 @@
+const { response } = require("express");
 const UserModel = require("../models/userModel");
+const axios = require('axios');
 
 class UserController {
   static async getAllUsers(req, res) {
@@ -84,27 +86,29 @@ class UserController {
       "852662586348-50t7sehl92p5m9vkb97rnggbcp5pvvgh.apps.googleusercontent.com";
 
     const { token, userId } = req.body;
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${token}`
-      );
-      console.log(response.data);
-      if (
-        response.data.issued_to === CLIENT_ID &&
-        response.data.user_id === userId
-      ) {
-        // Token is valid and userId matches
-        res.json({ success: true });
-      } else {
-        // Invalid token or userId mismatch
-        res
-          .status(401)
-          .json({ success: false, message: "Invalid token or userId" });
-      }
-    } catch (error) {
-      res.status(401).json({ success: false, message: "Invalid token" });
+    const url='https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='+token;
+  const data=await validatetoken(url)
+    if (data.issued_to === CLIENT_ID &&
+         data.user_id === userId){
+        return res.status(200).json({ success: true });
+    }else
+    {
+        return res.status(401).json({ success:false ,error: "Invalid token" });
     }
-  }
+  
+ 
+        
 }
+
+
+}
+async function validatetoken(url,){
+    const response = await axios.get(url)
+    return response.data;
+    
+    }
+        
+        
+
 
 module.exports = UserController;
