@@ -14,6 +14,8 @@ router.post("/users", UserController.createUser);
 router.get("/users/:id", UserController.getUserById);
 router.delete("/users/:id", UserController.deleteUser);
 
+router.post("/user/authenticate", UserController.authenticateUser);
+
 // Routes for videos
 router.get("/videos", VideoController.getAllVideos);
 router.post("/videos", VideoController.addVideo);

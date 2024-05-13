@@ -78,6 +78,29 @@ class UserController {
       res.status(500).json({ error: error.message });
     }
   }
+  //authenticate user
+  static async authenticateUser(req, res) {
+    const CLIENT_ID =
+      "852662586348-50t7sehl92p5m9vkb97rnggbcp5pvvgh.apps.googleusercontent.com";
+
+    const { token, userId } = req.body;
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token}`
+      );
+      if (response.data.aud === CLIENT_ID && response.data.sub === userId) {
+        // Token is valid and userId matches
+        res.json({ success: true });
+      } else {
+        // Invalid token or userId mismatch
+        res
+          .status(401)
+          .json({ success: false, message: "Invalid token or userId" });
+      }
+    } catch (error) {
+      res.status(401).json({ success: false, message: "Invalid token" });
+    }
+  }
 }
 
 module.exports = UserController;
