@@ -7,6 +7,7 @@ const ChannelController = require("./controllers/channelController");
 const UserAdVideoController = require("./controllers/user_ad_videoController");
 const AdminController = require("./controllers/adminController");
 const UserStatsController = require("./controllers/user_statsController");
+const UserVideoController = require("./controllers/userVideoController");
 
 // Routes for users
 router.get("/users", UserController.getAllUsers);
@@ -33,6 +34,8 @@ router.get("/channels/:id", ChannelController.getChannelById);
 
 // Routes for user ad video associations
 router.post("/user-ad-video", UserAdVideoController.addUserAdVideo);
+//routes for posting watch history
+router.post("/watch-history",UserVideoController.addUserVideo); 
 //Routes for getting stats of user
 router.get(
   "/user-stats/nbads/:userId",
