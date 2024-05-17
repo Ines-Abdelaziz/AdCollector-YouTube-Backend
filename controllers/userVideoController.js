@@ -32,3 +32,5 @@ class UserVideoController {
         }
     }
 }
+
+module.exports = UserVideoController;

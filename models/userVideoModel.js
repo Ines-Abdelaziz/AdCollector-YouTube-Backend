@@ -22,3 +22,4 @@ class UserVideoModel {
         }
     }
 }
+module.exports = UserVideoModel;
