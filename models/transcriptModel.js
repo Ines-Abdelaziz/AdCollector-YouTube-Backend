@@ -28,7 +28,7 @@ class transcriptModel {
     }
     
     //get ad by id
-    static async getAdById(adlink) {
+    static async getTranscriptById(adlink) {
         try {
             const result = await pool.query('SELECT * FROM transcript WHERE adlink = $1', [adlink]);
             return result.rows[0];
