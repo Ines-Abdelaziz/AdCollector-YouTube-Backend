@@ -8,6 +8,8 @@ const UserAdVideoController = require("./controllers/user_ad_videoController");
 const AdminController = require("./controllers/adminController");
 const UserStatsController = require("./controllers/user_statsController");
 const UserVideoController = require("./controllers/userVideoController");
+const TranscriptController = require("./controllers/transcriptController");
+
 
 // Routes for users
 router.get("/users", UserController.getAllUsers);
@@ -59,5 +61,11 @@ router.post("/increment-watch-count", UserController.incrementVideos);
 // Routes for admin
 router.post("/admin/register", AdminController.registerAdmin);
 router.post("/admin/login", AdminController.loginAdmin);
+
+// Routes for transcripts
+router.get("/transcripts", TranscriptController.getAllTranscripts);
+router.post("/transcripts", TranscriptController.addTranscript);
+router.get("/transcripts/:adlink", TranscriptController.getTranscriptById);
+
 
 module.exports = router;
