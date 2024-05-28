@@ -24,7 +24,6 @@ class TranscriptModel {
             throw new Error('Error creating ad transcript: ' + error.message);
         }
     }
-    
     static async getTranscriptById(adlink) {
         try {
             const result = await pool.query('SELECT * FROM transcript WHERE adlink = $1', [adlink]);
