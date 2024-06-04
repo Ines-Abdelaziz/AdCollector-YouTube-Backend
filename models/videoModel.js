@@ -11,9 +11,10 @@ class VideoModel {
     }
 
     static async addVideo(videoData) {
-        const { video_id, published_at, channel_id, title, description, region_restriction_allowed, region_restriction_blocked, cnc_rating, csa_rating, yt_rating, made_for_kids, view_count, like_count, dislike_count, favorite_count, comment_count, topic_categories } = videoData;
+        const { video_id, published_at, channel_id, title, description,  made_for_kids, view_count, like_count, comment_count, topic_categories } = videoData;
+        const timestamp = new Date();
         try {
-            const result = await pool.query('INSERT INTO videos (video_id, published_at, channel_id, title, description, region_restriction_allowed, region_restriction_blocked, cnc_rating, csa_rating, yt_rating, made_for_kids, view_count, like_count, dislike_count, favorite_count, comment_count, topic_categories) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *', [video_id, published_at, channel_id, title, description, region_restriction_allowed, region_restriction_blocked, cnc_rating, csa_rating, yt_rating, made_for_kids, view_count, like_count, dislike_count, favorite_count, comment_count, topic_categories]);
+            const result = await pool.query('INSERT INTO videos (video_id, published_at, channel_id, title, description,  made_for_kids, view_count, like_count,  comment_count, topic_categories,timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', [video_id, published_at, channel_id, title, description,  made_for_kids, view_count, like_count,comment_count,topic_categories,timestamp]);
             return result.rows[0];
         } catch (error) {
             console.error('Error creating video:', error);

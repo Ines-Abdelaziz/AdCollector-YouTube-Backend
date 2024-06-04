@@ -11,12 +11,12 @@ class ChannelModel {
     }
 
     static async addChannel(channelData) {
-        const { id, title, description, keywords, topic_categories, made_for_kids, default_language, country, view_count, subscriber_count,video_count } = channelData;
+        const { id, title, description, keywords, country, view_count, subscriber_count,video_count } = channelData;
         console.log('channelData:', channelData);
     
 
         try {
-            const result = await pool.query('INSERT INTO channels (id, title, description, keywords, topic_categories, made_for_kids, default_language, country, view_count, subscriber_count,video_count) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', [id, title, description, keywords, topic_categories, made_for_kids, default_language, country, view_count, subscriber_count,video_count]);
+            const result = await pool.query('INSERT INTO channels (id, title, description, keywords, topic_categories,  view_count, subscriber_count,video_count) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [id, title, description, keywords, country, view_count, subscriber_count,video_count]);
             return result.rows[0];
         } catch (error) {
             console.log(error);
