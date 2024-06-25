@@ -16,6 +16,7 @@ class UserController {
     const userData = req.body;
     try {
       //check if user exists
+      
       const user = await UserModel.getUserById(userData.id);
       if (user) {
         return res.status(409).json({ error: "User already exists" });
@@ -34,7 +35,7 @@ class UserController {
       const user = await UserModel.getUserById(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
-      }
+    }
       res.json(user);
     } catch (error) {
       res.status(500).json({ error: error.message });

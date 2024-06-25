@@ -16,7 +16,7 @@ class ChannelModel {
     
 
         try {
-            const result = await pool.query('INSERT INTO channels (id, title, description, keywords, topic_categories,  view_count, subscriber_count,video_count) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [id, title, description, keywords, country, view_count, subscriber_count,video_count]);
+            const result = await pool.query('INSERT INTO channels (id, title, description, keywords, country,  view_count, subscriber_count,video_count) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [id, title, description, keywords, country, view_count, subscriber_count,video_count]);
             return result.rows[0];
         } catch (error) {
             console.log(error);
