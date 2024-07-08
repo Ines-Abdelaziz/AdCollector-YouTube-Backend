@@ -65,10 +65,6 @@ class UserStatsModel {
                     ELSE reason
                 END AS normalized_reason
                 FROM (
-                    SELECT unnest(google_information) AS reason FROM ads
-                    JOIN user_ad_video ON ads.ad_id = user_ad_video.ad_id
-                    WHERE user_ad_video.user_id = $1
-                    UNION ALL
                     SELECT unnest(other_information) AS reason FROM ads
                     JOIN user_ad_video ON ads.ad_id = user_ad_video.ad_id
                     WHERE user_ad_video.user_id = $1
