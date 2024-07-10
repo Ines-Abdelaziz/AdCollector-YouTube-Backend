@@ -10,7 +10,6 @@ const UserStatsController = require("./controllers/user_statsController");
 const UserVideoController = require("./controllers/userVideoController");
 const TranscriptController = require("./controllers/transcriptController");
 
-
 // Routes for users
 router.get("/users", UserController.getAllUsers);
 router.post("/users", UserController.createUser);
@@ -37,7 +36,7 @@ router.get("/channels/:id", ChannelController.getChannelById);
 // Routes for user ad video associations
 router.post("/user-ad-video", UserAdVideoController.addUserAdVideo);
 //routes for posting watch history
-router.post("/watch-history",UserVideoController.addUserVideo); 
+router.post("/watch-history", UserVideoController.addUserVideo);
 //Routes for getting stats of user
 router.get(
   "/user-stats/nbads/:userId",
@@ -55,6 +54,10 @@ router.get(
   "/user-stats/targeting-reasons/:userId",
   UserStatsController.getTargetingReasonsByUser
 );
+router.get(
+  "/user-stats/google-targeting-reasons/:userId",
+  UserStatsController.getGoogleTargetingReasonsByUser
+);
 
 router.post("/increment-watch-count", UserController.incrementVideos);
 
@@ -66,6 +69,5 @@ router.post("/admin/login", AdminController.loginAdmin);
 router.get("/transcripts", TranscriptController.getAllTranscripts);
 router.post("/transcripts", TranscriptController.addTranscript);
 router.get("/transcripts/:adlink", TranscriptController.getTranscriptById);
-
 
 module.exports = router;

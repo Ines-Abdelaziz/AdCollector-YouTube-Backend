@@ -45,5 +45,15 @@ class UserStatsController {
       res.status(500).json({ error: error.message });
     }
   }
+  static async getGoogleTargetingReasonsByUser(req, res) {
+    const userId = req.params.userId;
+    try {
+      const targetingReasons =
+        await UserStatsModel.getGoogleTargetingReasonsByUser(userId);
+      res.status(200).json({ targetingReasons });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 }
 module.exports = UserStatsController;

@@ -53,26 +53,68 @@ class UserStatsModel {
   static async getTargetingReasonsByUser(userId) {
     try {
       const query = `
-            SELECT normalized_reason, COUNT(*) AS occurrences
-            FROM (
-                SELECT CASE
-                    WHEN reason ILIKE '%time of day%' THEN 'The time of day'
-                    WHEN reason ILIKE '%general location%' OR reason ILIKE '%current location%' THEN 'Your general location'
-                    WHEN reason ILIKE '%interests, based on your activity%' THEN 'Google''s estimation of your interests, based on your activity'
-                    WHEN reason ILIKE '%Google''s estimation of your interests%' THEN 'Google''s estimation of your interests, based on your activity'
-                    WHEN reason ILIKE '%Google''s estimation of your areas of interest, based on your activity%' THEN 'Google''s estimation of your interests, based on your activity'
+         SELECT normalized_reason, COUNT(*) AS occurrences
+     FROM (
+     SELECT
+         CASE
+                      WHEN reason ILIKE '%time of day%'
+                          THEN 'The time of day or your general location (like your country or city)'
+                      WHEN reason ILIKE '%location%' OR reason ILIKE '%current location%'
+                          THEN 'The time of day or your general location (like your country or city)'
+                      WHEN reason ILIKE '%interests%' THEN 'Google''s estimation of your interests'
+                      WHEN reason ILIKE '%Google''s estimation of your interests%'
+                          THEN 'Google''s estimation of your interests'
+                      WHEN reason ILIKE '%Google''s estimation of your areas of interest%'
+                          THEN 'Google''s estimation of your interests'
+                      WHEN reason ILIKE '%activity%' THEN 'Based on your activity'
+                      WHEN reason ILIKE '%The video you''re watching%' THEN 'The video you''re watching'
+                      WHEN reason ILIKE '%Your similarity to groups of people the advertiser is trying to reach%' then 'Your similarity to groups of people the advertiser is trying to reach'
+                      WHEN reason ILIKE '%Websites you''ve visited%' THEN 'Websites you''ve visited'
+                      WHEN reason ILIKE '%The advertiser’s interest in reaching new customers who haven’t bought something from them before%' THEN 'The advertiser’s interest in reaching new customers who haven’t bought something from them before'
 
-                    ELSE reason
-                END AS normalized_reason
-                FROM (
-                    SELECT unnest(other_information) AS reason FROM ads
-                    JOIN user_ad_video ON ads.ad_id = user_ad_video.ad_id
-                    WHERE user_ad_video.user_id = $1
-                ) AS all_reasons
+                      ELSE reason
+           END AS normalized_reason
+           FROM (
+           SELECT unnest(string_to_array(trim(both '{}' from ads.other_information::text), ',')) AS reason
+                 FROM ads
+                          JOIN
+                      user_ad_video ON ads.ad_id = user_ad_video.ad_id
+                 WHERE user_ad_video.user_id = $1
+                     ) AS all_reasons
             ) AS grouped_reasons
-            WHERE  normalized_reason <> 'N/A'
-            GROUP BY normalized_reason
-            ORDER BY occurrences DESC;
+WHERE  normalized_reason <> 'N/A'
+GROUP BY normalized_reason
+ORDER BY occurrences DESC;
+
+             `;
+      const { rows } = await pool.query(query, [userId]);
+      return rows;
+    } catch (error) {
+      throw new Error("Error fetching targeting reasons by user");
+    }
+  }
+  static async getGoogleTargetingReasonsByUser(userId) {
+    try {
+      const query = `
+            SELECT reason, COUNT(*) AS occurrences
+FROM (
+    SELECT
+        replace(unnest(string_to_array(trim(both '{}' from ads.google_information::text), ',')), '"', '') AS reason
+    FROM
+        ads
+    JOIN
+        user_ad_video ON ads.ad_id = user_ad_video.ad_id
+    WHERE
+        user_ad_video.user_id = $1
+) AS google_reasons
+WHERE
+    reason <> 'N/A'
+GROUP BY
+    reason
+ORDER BY
+    occurrences DESC;
+
+
              `;
       const { rows } = await pool.query(query, [userId]);
       return rows;
