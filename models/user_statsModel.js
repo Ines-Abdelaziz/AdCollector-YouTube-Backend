@@ -11,6 +11,17 @@ class UserStatsModel {
       throw new Error("Error fetching ads collected by user");
     }
   }
+  static async getVidsWatchedByUser(userId) {
+    try {
+      const result = await pool.query(
+        "select videos from users where user_id=$1",
+        [userId]
+      );
+      return result.rows[0].videos;
+    } catch (error) {
+      throw new Error("Error fetching ads collected by user");
+    }
+  }
   //get topic occurence by user
   static async getTopicsOccurenceByUser(userId) {
     try {

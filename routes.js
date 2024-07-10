@@ -43,6 +43,10 @@ router.get(
   UserStatsController.getAdsCollectedByUser
 );
 router.get(
+  "/user-stats/nbvids/:userId",
+  UserStatsController.getVidsWatchedByUser
+);
+router.get(
   "/user-stats/topics/:userId",
   UserStatsController.getTopicsOccurenceByUser
 );

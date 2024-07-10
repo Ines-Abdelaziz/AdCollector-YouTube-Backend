@@ -10,6 +10,15 @@ class UserStatsController {
       res.status(500).json({ error: error.message });
     }
   }
+  static async getVidsWatchedByUser(req, res) {
+    const userId = req.params.userId;
+    try {
+      const VidsWatched = await UserStatsModel.getVidsWatchedByUser(userId);
+      res.status(200).json({ VidsWatched });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
   static async getTopicsOccurenceByUser(req, res) {
     const userId = req.params.userId;
