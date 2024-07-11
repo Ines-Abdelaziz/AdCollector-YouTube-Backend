@@ -38,6 +38,7 @@ router.post("/user-ad-video", UserAdVideoController.addUserAdVideo);
 //routes for posting watch history
 router.post("/watch-history", UserVideoController.addUserVideo);
 //Routes for getting stats of user
+router.get("/user-stats/ads/:userId", UserStatsController.getAdsByUser);
 router.get(
   "/user-stats/nbads/:userId",
   UserStatsController.getAdsCollectedByUser

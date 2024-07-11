@@ -1,6 +1,15 @@
 const UserStatsModel = require("../models/user_statsModel");
 
 class UserStatsController {
+  static async getAdsByUser(req, res) {
+    const userId = req.params.userId;
+    try {
+      const ads = await UserStatsModel.getAdsByUser(userId);
+      res.status(200).json({ ads });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
   static async getAdsCollectedByUser(req, res) {
     const userId = req.params.userId;
     try {

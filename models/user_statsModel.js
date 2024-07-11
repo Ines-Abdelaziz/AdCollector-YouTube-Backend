@@ -1,5 +1,20 @@
 const pool = require("../db-config");
 class UserStatsModel {
+  static async getAdsByUser(userId) {
+    try {
+      const result = await pool.query(
+        `SELECT a.*
+            FROM ads a
+            JOIN user_ad_video uav ON a.ad_id = uav.ad_id
+            WHERE uav.user_id = $1;
+            `,
+        [userId]
+      );
+      return result.rows;
+    } catch (error) {
+      throw new Error("Error fetching ads collected by user");
+    }
+  }
   static async getAdsCollectedByUser(userId) {
     try {
       const result = await pool.query(
@@ -19,7 +34,7 @@ class UserStatsModel {
       );
       return result.rows[0].videos;
     } catch (error) {
-      throw new Error("Error fetching ads collected by user");
+      throw new Error("Error fetching videos watched by user");
     }
   }
   //get topic occurence by user
