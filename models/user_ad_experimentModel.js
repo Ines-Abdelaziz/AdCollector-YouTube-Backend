@@ -1,6 +1,6 @@
 const pool = require("../db-config");
 
-class UserAdVideoModel {
+class UserAdExperimentModel {
   static async addUserAdExperiment(userAdExperimentData) {
     const { ad_id, video_id, channel_id, user_id,original } = userAdExperimentData;
     try {
