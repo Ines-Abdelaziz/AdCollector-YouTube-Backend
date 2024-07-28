@@ -14,6 +14,14 @@ class UserAdExperimentModel {
       throw new Error("Error adding user ad experiment association");
     }
   }
+  static async getAllExperiments() {
+    try {
+        const result = await pool.query('SELECT * FROM user_ad_experiment');
+        return result.rows;
+    } catch (error) {
+        throw new Error('Error fetching experiments from the database');
+    }
+}
 }
 
 module.exports = UserAdExperimentModel;
