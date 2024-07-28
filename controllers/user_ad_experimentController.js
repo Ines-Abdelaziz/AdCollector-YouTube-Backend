@@ -3,10 +3,10 @@ const UserAdExperimentModel = require('../models/user_ad_experimentModel');
 
 class UserAdExperimentController {
     static async addUserAdExperiment(req, res) {
-        const userAdVideoData = req.body;
+        const userAdExperimentData = req.body;
         try {
-            const newUserAdVideo = await UserAdExperimentModel.addUserAdExperiment(userAdVideoData);
-            res.status(201).json(newUserAdVideo);
+            const newUserAdExperiment = await UserAdExperimentModel.addUserAdExperiment(userAdExperimentData);
+            res.status(201).json(newUserAdExperiment);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
