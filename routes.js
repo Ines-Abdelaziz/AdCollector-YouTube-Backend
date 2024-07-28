@@ -39,6 +39,8 @@ router.post("/user-ad-video", UserAdVideoController.addUserAdVideo);
 
 // Routes for user ad experiment associations
 router.post("/user-ad-experiment", UserAdExperimentController.addUserAdExperiment);
+router.get("/experiments", UserAdExperimentController.getAllExperiments);
+
 //routes for posting watch history
 router.post("/watch-history", UserVideoController.addUserVideo);
 //Routes for getting stats of user
