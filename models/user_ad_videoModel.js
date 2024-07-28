@@ -10,7 +10,7 @@ class UserAdVideoModel {
         
       );
       console.log("I changed the backend");
-      return { ...result.rows[0], message: "I changed the backend" };
+      return { message: "I changed the backend" };
     } catch (error) {
       console.log(error);
       throw new Error("Error adding user ad video association");
