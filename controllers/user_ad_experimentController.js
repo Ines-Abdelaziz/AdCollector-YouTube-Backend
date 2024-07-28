@@ -1,4 +1,4 @@
-const UserAdVideoModel = require('../models/user_ad_experimentModel');
+const UserAdExperimentModel = require('../models/user_ad_experimentModel');
 
 
 class UserAdExperimentController {
