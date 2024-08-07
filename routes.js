@@ -36,9 +36,13 @@ router.get("/channels/:id", ChannelController.getChannelById);
 
 // Routes for user ad video associations
 router.post("/user-ad-video", UserAdVideoController.addUserAdVideo);
+router.post("/user-ad", UserAdVideoController.addUserAd);
 
 // Routes for user ad experiment associations
-router.post("/user-ad-experiment", UserAdExperimentController.addUserAdExperiment);
+router.post(
+  "/user-ad-experiment",
+  UserAdExperimentController.addUserAdExperiment
+);
 router.get("/experiments", UserAdExperimentController.getAllExperiments);
 
 //routes for posting watch history
