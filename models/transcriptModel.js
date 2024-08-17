@@ -13,11 +13,6 @@ class TranscriptModel {
     static async addTranscript(transcriptData) {
         const { adlink, transcript } = transcriptData;
         try {
-            const existingTranscript = await pool.query('SELECT * FROM transcript WHERE adlink = $1', [adlink]);
-            if (existingTranscript.rows.length > 0) {
-                throw new Error('Ad transcript with the same adlink already exists');
-            }
-    
             const result = await pool.query('INSERT INTO transcript (adlink, transcript) VALUES ($1, $2) RETURNING *', [adlink, transcript]);
             return result.rows[0];
         } catch (error) {
