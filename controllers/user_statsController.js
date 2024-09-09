@@ -73,5 +73,62 @@ class UserStatsController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  ////////////
+
+  static async getTargetingStartegies(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getTargetingStartegies(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  static async getTargetingCombinations(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getTargetingCombinations(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  static async getPlacmentBasedPerVideo(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getPlacmentBasedPerVideo(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  static async getCountPoliticalsAd(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getCountPoliticalsAd(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  static async getPolticalAds(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getPolticalAds(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  static async getPolticalPlacmentAds(req, res) {
+    const userId = req.params.userId;
+    try {
+      const result = await UserStatsModel.getPolticalPlacmentAds(userId);
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 }
 module.exports = UserStatsController;

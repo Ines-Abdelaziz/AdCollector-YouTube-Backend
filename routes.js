@@ -47,6 +47,7 @@ router.get("/experiments", UserAdExperimentController.getAllExperiments);
 
 //routes for posting watch history
 router.post("/watch-history", UserVideoController.addUserVideo);
+
 //Routes for getting stats of user
 router.get("/user-stats/ads/:userId", UserStatsController.getAdsByUser);
 router.get(
@@ -74,6 +75,28 @@ router.get(
   UserStatsController.getGoogleTargetingReasonsByUser
 );
 
+router.get(
+  "/user-stats/targeting-strategies/:userId",
+  UserStatsController.getTargetingStartegies
+);
+router.get(
+  "/user-stats/targeting-combinations/:userId",
+  UserStatsController.getTargetingCombinations
+);
+router.get(
+  "/user-stats/placement-pervideo/:userId",
+  UserStatsController.getPlacmentBasedPerVideo
+);
+router.get(
+  "/user-stats/count-political/:userId",
+  UserStatsController.getCountPoliticalsAd
+);
+router.get("/user-stats/political/:userId", UserStatsController.getPolticalAds);
+router.get(
+  "/user-stats/political-placement/:userId",
+  UserStatsController.getPolticalPlacmentAds
+);
+///
 router.post("/increment-watch-count", UserController.incrementVideos);
 
 // Routes for admin
