@@ -26,6 +26,7 @@ router.get("/videos/:id", VideoController.getVideoById);
 
 // Routes for ads
 router.get("/ads", AdController.getAllAds);
+router.get("/adsshown", AdController.getAllAdsshown);
 router.post("/ad", AdController.addAd);
 router.get("/ad", AdController.getAdByAllColumns);
 

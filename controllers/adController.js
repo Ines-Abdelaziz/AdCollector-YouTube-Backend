@@ -9,6 +9,14 @@ class AdController {
             res.status(500).json({ error: error.message });
         }
     }
+    static async getAllAdsshown(req, res) {
+        try {
+            const ads = await AdModel.getAllAdsshown();
+            res.json(ads);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 
     static async addAd(req, res) {
         const adData = req.body;

@@ -9,7 +9,21 @@ class AdModel {
             throw new Error('Error fetching ads from the database');
         }
     }
-
+    static async getAllAdsshown() {
+        try {
+            const result = await pool.query(`
+                SELECT ads.*, ad_user.*, videos.*
+                FROM ads
+                JOIN ad_user ON ads.id = ad_user.ad_id
+                JOIN videos ON ad_user.video_id = videos.id
+            `);
+            return result.rows;
+        } catch (error) {
+            console.error('Database error:', error.message); // Add better error logging
+            throw new Error('Error fetching ads from the database');
+        }
+    }
+    
     static async addAd(adData) {
         const { id,advertiser, advertiser_location, topic ,advertiser_link,brand} = adData;
         try {
