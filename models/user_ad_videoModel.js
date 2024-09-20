@@ -2,11 +2,11 @@ const pool = require("../db-config");
 
 class UserAdVideoModel {
   static async addUserAdVideo(userAdVideoData) {
-    const { ad_id, video_id, channel_id, user_id } = userAdVideoData;
+    const { ad_id, video_id, channel_id, user_id,original,google_information,other_information } = userAdVideoData;
     try {
       const result = await pool.query(
-        "INSERT INTO user_ad_video ( ad_id, video_id,channel_id,user_id) VALUES ($1, $2, $3, $4) RETURNING *",
-        [ad_id, video_id, channel_id, user_id]
+        "INSERT INTO ad_user ( ad_id, video_id,channel_id,user_id,original,google_information,other_information) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [ad_id, video_id, channel_id, user_id,original,google_information,other_information]
       );
       return result.rows[0];
     } catch (error) {

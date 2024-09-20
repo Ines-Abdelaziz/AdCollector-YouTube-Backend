@@ -3,7 +3,7 @@ const pool = require('../db-config');
 class TranscriptModel {
     static async getAllTranscripts() {
         try {
-            const result = await pool.query('SELECT * FROM transcript');
+            const result = await pool.query('SELECT * FROM transcripts');
             return result.rows;
         } catch (error) {
             throw new Error('Error fetching transcripts from the database');
@@ -11,22 +11,22 @@ class TranscriptModel {
     }
 
     static async addTranscript(transcriptData) {
-        const { adlink, transcript } = transcriptData;
+        const { ad_id, transcript } = transcriptData;
         try {
-            const existingTranscript = await pool.query('SELECT * FROM transcript WHERE adlink = $1', [adlink]);
+            const existingTranscript = await pool.query('SELECT * FROM transcripts WHERE ad_id = $1', [ad_id]);
             if (existingTranscript.rows.length > 0) {
-                throw new Error('Ad transcript with the same adlink already exists');
+                throw new Error('Ad transcript with the same ad_id already exists');
             }
     
-            const result = await pool.query('INSERT INTO transcript (adlink, transcript) VALUES ($1, $2) RETURNING *', [adlink, transcript]);
+            const result = await pool.query('INSERT INTO transcripts (ad_id, transcript) VALUES ($1, $2) RETURNING *', [ad_id, transcript]);
             return result.rows[0];
         } catch (error) {
             throw new Error('Error creating ad transcript: ' + error.message);
         }
     }
-    static async getTranscriptById(adlink) {
+    static async getTranscriptById(ad_id) {
         try {
-            const result = await pool.query('SELECT * FROM transcript WHERE adlink = $1', [adlink]);
+            const result = await pool.query('SELECT * FROM transcripts WHERE ad_id = $1', [ad_id]);
             return result.rows[0];
         } catch (error) {
             throw new Error('Error fetching transcript by ID: ' + error.message);

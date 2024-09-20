@@ -14,7 +14,7 @@ class VideoController {
         const videoData = req.body;
         try {
             //check if video exists
-            const video = await VideoModel.getVideoById(videoData.video_id);
+            const video = await VideoModel.getVideoById(videoData.id);
             if (video) {
                 return res.status(202).json({ error: 'Video already exists' });
             }else{
