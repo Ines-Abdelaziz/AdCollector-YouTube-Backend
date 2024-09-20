@@ -12,19 +12,24 @@ class AdminModel {
         return result.rows[0];
     }
     static async getAds() {
-        try {
+      try {
           const result = await pool.query(
-            `SELECT a.*
-            FROM ads a
-            JOIN ad_user au ON a.id = au.ad_id
-            `,
+              `SELECT a.*, au.google_information, au.other_information
+               FROM ads a
+               JOIN ad_user au ON a.id = au.ad_id`
           );
+          
+          // Return the result rows, which should contain the ads data
           return result.rows;
-        } catch (error) {
-          throw new Error("Error fetching ads collected ");
-        }
+      } catch (error) {
+          // Log the actual error to the console for debugging
+          console.error("Error in getAds:", error);
+  
+          // Throw a custom error message for the user
+          throw new Error("Error fetching ads collected");
       }
-    
+  }
+  
       static async getAdsCollected() {
         try {
           const result = await pool.query(
@@ -201,7 +206,6 @@ class AdminModel {
         try {
           const query = `
           SELECT
-              au.user_id,
               COUNT(CASE WHEN pa.political = TRUE THEN 1 ELSE NULL END) AS political_ad_count,
               COUNT(CASE WHEN pa.political = FALSE OR pa.political IS NULL THEN 1 ELSE NULL END) AS non_political_ad_count
           FROM ad_user au
@@ -212,39 +216,43 @@ class AdminModel {
           const { rows } = await pool.query(query);
           return rows;
         } catch (error) {
-          throw new Error("Error fetching political ads count");
+          throw new Error("Error fetching political ads count",error.message);
         }
       }
-      static async getPolticalAds() {
+      static async getPoliticalAds() {
         try {
           const query = `
-          WITH classified_ads AS (
+            WITH classified_ads AS (
               SELECT
-                  au.user_id,
-                  a.id,  -- Use 'id' for 'ads' table
-                  a.advertiser,
-                  a.advertiser_link,
-                  a.advertiser_location,
-                  pa.political,
-                  CASE
-                      WHEN reason ILIKE '%The video you''re watching%' THEN 'Placement-Based'
-                      ELSE 'Interest-Based'
-                  END AS targeting_strategy
-              FROM ad_user au
-              JOIN ads a ON au.ad_id = a.id  -- Use 'id' for 'ads' table
-              LEFT JOIN political_ads pa ON a.id = pa.ad_id  -- Use 'ad_id' for 'political_ads' table
+                au.user_id,  -- Include the user_id
+                a.id,  -- 'id' from 'ads' table
+                a.advertiser,
+                a.advertiser_link,
+                a.advertiser_location,
+                pa.political,
+                t.transcript,  -- Include transcript from 'transcripts' table
+                CASE
+                  WHEN reason ILIKE '%The video you''re watching%' THEN 'Placement-Based'
+                  ELSE 'Interest-Based'
+                END AS targeting_strategy
+              FROM ad_user au  -- 'ad_user' table to get the user and 'other_information'
+              JOIN ads a ON au.ad_id = a.id  -- Join ads table
+              LEFT JOIN political_ads pa ON a.id = pa.ad_id  -- Join 'political_ads' table
+              LEFT JOIN transcripts t ON a.id = t.ad_id  -- Join 'transcripts' table to fetch the transcript
               JOIN LATERAL unnest(string_to_array(trim(both '{}' from au.other_information::text), ',')) AS reason ON TRUE
-              WHERE  pa.political = TRUE
-          )
-          SELECT *
-          FROM classified_ads
+              WHERE pa.political = TRUE  -- Only fetch political ads
+            )
+            SELECT * FROM classified_ads;
           `;
+      
           const { rows } = await pool.query(query);
           return rows;
         } catch (error) {
+          console.error("Error fetching political ads:", error.message);
           throw new Error("Error fetching political ads");
         }
       }
+      
       
       static async getPolticalPlacmentAds() {
         try {
@@ -274,7 +282,38 @@ class AdminModel {
           throw new Error("Error fetching placement-based political ads");
         }
       }
+
+      static async getPlacmentBasedPerVideo() {
+        try {
+          const query = `
+            SELECT 
+              video_id, 
+              COUNT(*) AS total_ads_count,
+              COUNT(
+                  CASE 
+                      WHEN reason ILIKE '%The video you''re watching%' 
+                        OR reason ILIKE '%La vidéo que vous regardez%' 
+                      THEN 1 
+                      ELSE NULL 
+                  END
+              ) AS placement_based_ad_count
+            FROM (
+                SELECT 
+                    video_id, 
+                    unnest(string_to_array(trim(both '{}' from other_information::text), ',')) AS reason 
+                FROM ad_user 
+            ) AS uav
+            GROUP BY video_id
+            ORDER BY placement_based_ad_count DESC;
+          `;
+          const { rows } = await pool.query(query);
+          return rows;
+        } catch (error) {
+          throw new Error("Error fetching placement-based ads per video");
+        }
+      }
 }
+
 
 
 

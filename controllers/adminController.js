@@ -123,9 +123,9 @@ class AdminController {
           res.status(500).json({ error: error.message });
         }
       }
-      static async getPolticalAds(req, res) {
+      static async getPoliticalAds(req, res) {
         try {
-          const result = await AdminModel.getPolticalAds();
+          const result = await AdminModel.getPoliticalAds();
           res.status(200).json({ result });
         } catch (error) {
           res.status(500).json({ error: error.message });
@@ -134,6 +134,14 @@ class AdminController {
       static async getPolticalPlacmentAds(req, res) {
         try {
           const result = await AdminModel.getPolticalPlacmentAds();
+          res.status(200).json({ result });
+        } catch (error) {
+          res.status(500).json({ error: error.message });
+        }
+      }
+      static async getPlacmentBasedPerVideo(req, res) {
+        try {
+          const result = await AdminModel.getPlacmentBasedPerVideo();
           res.status(200).json({ result });
         } catch (error) {
           res.status(500).json({ error: error.message });

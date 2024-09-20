@@ -4,7 +4,7 @@ class UserStatsModel {
   static async getAdsByUser(userId) {
     try {
       const result = await pool.query(
-        `SELECT a.*
+        `SELECT a.*,au.google_information, au.other_information
         FROM ads a
         JOIN ad_user au ON a.id = au.ad_id
         WHERE au.user_id = $1;

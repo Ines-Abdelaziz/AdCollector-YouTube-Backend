@@ -94,7 +94,7 @@ router.post("/increment-watch-count", UserController.incrementVideos);
 // Routes for admin
 router.post("/admin/register", AdminController.registerAdmin);
 router.post("/admin/login", AdminController.loginAdmin);
-router.get("/ads/:userId", AdminController.getAds);
+router.get("/admin/ads", AdminController.getAds);
 router.get(
   "/nbads/",
   AdminController.getAdsCollected
@@ -133,10 +133,15 @@ router.get(
   "/count-political/",
   AdminController.getCountPoliticalsAd
 );
-router.get("/political/", AdminController.getPolticalAds);
+router.get("/political/", AdminController.getPoliticalAds);
 router.get(
   "/political-placement/",
   AdminController.getPolticalPlacmentAds
+);
+
+router.get(
+  "/placement-pervideo",
+  AdminController.getPlacmentBasedPerVideo
 );
 
 // Routes for transcripts
