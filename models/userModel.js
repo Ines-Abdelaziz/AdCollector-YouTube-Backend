@@ -11,13 +11,13 @@ class UserModel {
   }
 
   static async createUser(userData) {
-    const { user_id, gender, age, country } = userData;
+    const { id, gender, age, country } = userData;
     const videos=0;
     try {
         
       const result = await pool.query(
-        "INSERT INTO users (user_id, gender, age, country,videos) VALUES ($1, $2, $3, $4,$5) RETURNING *",
-        [user_id, gender, age, country,videos]
+        "INSERT INTO users (id, gender, age, country,videos) VALUES ($1, $2, $3, $4,$5) RETURNING *",
+        [id, gender, age, country,videos]
       );
       return result.rows[0];
     } catch (error) {
@@ -29,7 +29,7 @@ class UserModel {
   static async getUserById(userId) {
     try {
       const result = await pool.query(
-        "SELECT * FROM users WHERE user_id = $1",
+        "SELECT * FROM users WHERE id = $1",
         [userId]
       );
       // Check if any rows were returned
@@ -71,7 +71,7 @@ class UserModel {
   static async incrementVideos(userId) {
     try {
       const result = await pool.query(
-        "UPDATE users SET videos = videos + 1 WHERE user_id = $1 RETURNING *",
+        "UPDATE users SET videos = videos + 1 WHERE id = $1 RETURNING *",
         [userId]
       );
       return result.rows[0];
