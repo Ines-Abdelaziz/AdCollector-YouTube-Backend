@@ -13,7 +13,7 @@ class AdModel {
     static async addAd(adData) {
         const { adlink,advertiser, advertiser_location, topic ,advertiser_link} = adData;
         try {
-            const result = await pool.query('INSERT INTO ads ( id,advertiser, advertiser_location, topic,advertiser_link) VALUES ($1, $2, $3, $4, $5) RETURNING *', [adlink,advertiser, advertiser_location, topic, google_information, other_information,advertiser_link]);
+            const result = await pool.query('INSERT INTO ads ( id,advertiser, advertiser_location, topic,advertiser_link) VALUES ($1, $2, $3, $4, $5) RETURNING *', [adlink,advertiser, advertiser_location, topic,advertiser_link]);
             return result.rows[0];
         } catch (error) {
             throw new Error('Error creating ad');
