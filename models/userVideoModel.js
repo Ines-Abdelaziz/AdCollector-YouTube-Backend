@@ -6,7 +6,7 @@ class UserVideoModel {
     const timestamp = new Date();
     try {
       const result = await pool.query(
-        "INSERT INTO watch_history (user_id,video_id,timestamp) VALUES ($1, $2, $3) RETURNING *",
+        "INSERT INTO watch_history (user_id,video_id,watched_at) VALUES ($1, $2, $3) RETURNING *",
         [user_id, video_id, timestamp]
       );
       return result.rows[0];
