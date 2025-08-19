@@ -16,11 +16,27 @@ class UserAdVideoModel {
     }
   }
   static async addUserAd(userAdVideoData) {
-    const { ad_id, video_id, channel_id, user_id,google_information,other_information } = userAdVideoData;
+    const {
+      ad_id,
+      video_id,
+      channel_id,
+      user_id,
+      google_information,
+      other_information,
+    } = userAdVideoData;
+    timestamp = new Date();
     try {
       const result = await pool.query(
-        "INSERT INTO user_ads ( ad_id, video_id,channel_id,user_id,google_information,other_information) VALUES ($1, $2, $3, $4,$5,$6) RETURNING *",
-        [ad_id, video_id, channel_id, user_id,google_information,other_information]
+        "INSERT INTO user_ads ( ad_id, video_id,channel_id,user_id,google_information,other_information,timestamp) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING *",
+        [
+          ad_id,
+          video_id,
+          channel_id,
+          user_id,
+          google_information,
+          other_information,
+          timestamp,
+        ]
       );
       return result.rows[0];
     } catch (error) {
